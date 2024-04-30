@@ -1,0 +1,55 @@
+@import "variables.module.scss";
+@import url('https://fonts.googleapis.com/css2?family=Chela+One&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: $color-2;
+  color: $color-1;
+}
+h1{
+  font-size: 4em;
+  font-weight: 600;
+  /* font-family: 'Fasthand', cursive; */
+  font-family: 'Chela One', cursive;
+}
+h2{
+  font-size: 2em;
+  font-weight: 600;
+  font-family: 'Chela One', cursive;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3em;
+  height: 3em;
+  border-radius: 10em;
+  border: solid 2px white;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8em;
+  background-color: transparent;
+  opacity: 0.5;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
