@@ -2,7 +2,6 @@ import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
     const { slug } = await req.json();
-    console.log("SLUG: ", slug)
     const query = `
     query {
       productByHandle(handle: "${slug}") {
@@ -13,6 +12,7 @@ export async function POST(req) {
         variants(first: 1) {
           edges {
             node {
+              id
               price {
                 amount
                 currencyCode
@@ -20,7 +20,7 @@ export async function POST(req) {
             }
           }
         }
-        images(first: 1) {
+        images(first: 5) {
           edges {
             node {
               originalSrc

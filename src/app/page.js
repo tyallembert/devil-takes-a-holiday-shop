@@ -1,5 +1,6 @@
-import styles from "./page.module.scss";
-import Link from "next/link";
+
+import AllProducts from "./AllProducts";
+import CartButton from "./_components/CartButton";
 
 async function getData() {
   const url = new URL('http://localhost:3000');
@@ -14,14 +15,14 @@ async function getData() {
     // maybe put in if statement to check if some part of node is null
     return (
       {
-        id: node.id || "",
-        title: node.title || "",
-        description: node.description || "",
-        handle: node.handle || "",
-        price: node.variants.edges[0].node.price.amount || "",
-        currencyCode: node.variants.edges[0].node.price.currencyCode || "",
-        imageSRC: node.images.edges[0].node.originalSrc || "",
-        altText: node.images.edges[0].node.altText || ""
+        id: node.variants.edges[0].node.id,
+        title: node.title,
+        description: node.description,
+        handle: node.handle,
+        price: node.variants.edges[0].node.price.amount,
+        currencyCode: node.variants.edges[0].node.price.currencyCode,
+        imageSRC: node.images.edges[0].node.originalSrc,
+        altText: node.images.edges[0].node.altText
       }
     )
   }).filter(product => product.id !== "");
@@ -32,23 +33,9 @@ async function getData() {
 export default async function Home() {
   const products = await getData();
   return (
-    <main className={styles.main}>
-      <h1>DTAH Store</h1>
-      <div className={styles.allProducts}>
-      {
-        products ? (
-          products.map(( product ) => (
-            <Link key={product.id} href={`/products/${product.handle}`} className={styles.productContainer}>
-              <img src={product.imageSRC} alt={product.altText} />
-              <div className={styles.textContainer}>
-                <h2>{product.title}</h2>
-                <p>${product.price}</p>
-              </div>
-            </Link>
-          ))
-        ):null
-      }
-      </div>
-    </main>
+    <>
+    <CartButton />
+    <AllProducts products={products}/>
+    </>
   );
 }
