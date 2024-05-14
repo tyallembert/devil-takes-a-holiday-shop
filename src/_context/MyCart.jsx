@@ -9,7 +9,6 @@ export const MyCartProvider = ({ children }) => {
     const [cartID, setCartID] = useState(null);
 
     useEffect(() => {
-        // checkLocalStorageID();
         fetchCart();
     }, [])
     /* 

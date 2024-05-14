@@ -2,8 +2,12 @@ import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
     const { lines, cartId } = await req.json();
-    console.log("ADDING TO CART");
-    console.log("=============================")
+    const formattedLines = lines.map((line) => {
+      return {
+        quantity: line.quantity,
+        merchandiseId: line.merchandiseId
+      }
+    });
     const query = `
     mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!){
         cartLinesAdd(cartId: $cartId, lines: $lines) {
@@ -60,7 +64,7 @@ export async function POST(req) {
     const {data, errors, extensions} = await shopifyClient.request(query, {
       variables: {
         cartId: cartId,
-        lines: lines
+        lines: formattedLines
       }
     });
     if(errors) {

@@ -113,6 +113,12 @@
         }
         .alreadyInCart {
             border: solid 2px rgb(85, 211, 93);
+            background-color: rgba(rgb(85, 211, 93), 0.3);
+            &:hover {
+                color: $color-1;
+                background-color: rgba(rgb(85, 211, 93), 0.3);
+                transform: scale(1);
+            }
         }
     }
 }

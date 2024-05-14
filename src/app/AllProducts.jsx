@@ -1,9 +1,10 @@
 "use client";
 import Link from 'next/link';
 import React from 'react';
-import styles from "./page.module.scss";
+import styles from "./AllProducts.module.scss";
 import { MyCartProvider } from '@/_context/MyCart';
 import CartButton from './_components/CartButton';
+import { FaCartPlus } from "react-icons/fa";
 
 const AllProducts = ({products}) => {
     return (
@@ -28,7 +29,10 @@ const ProductsComponent = ({products}) => {
                     <img src={product.imageSRC} alt={product.altText} />
                     <div className={styles.textContainer}>
                         <h2>{product.title}</h2>
-                        <p>${product.price}</p>
+                        <p className={styles.price}>${product.price}</p>
+                        <button className={styles.addCartButton}>
+                            <FaCartPlus />
+                        </button>
                     </div>
                     </Link>
                 ))

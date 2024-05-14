@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import styles from './productDetails.module.scss';
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
@@ -17,20 +17,32 @@ export default ProductPage
 
 const ProductDetailsComponent = ({productDetails}) => {
     const { addToCart, lines } = useMyCart();
+    const [inCart, setInCart] = useState(false);
+
+    useEffect(() => {
+        productInCart();
+    
+    }, [lines])
 
     const productInCart = () => {
+        let prodInCart = false;
         lines.forEach((line) => {
+            console.log("Is in cart: ", line.merchandiseId === productDetails.variantId)
             if(productDetails.variantId === line.merchandiseId) {
-                return true;
+                prodInCart = true;
             }
         });
-        return false;
+        setInCart(prodInCart);
     }
     return (
         <main className={styles.detailsContainer}>
             <button className={styles.backButton} onClick={() => window.history.back()}>Back</button>
             <div className={styles.imageContainer}>
-                <Image src={productDetails.imageSRC} alt={productDetails.altText} width={300} height={500}/>
+                <Image src={productDetails.imageSRC} 
+                alt={productDetails.altText} 
+                width={300} 
+                height={500}
+                priority/>
                 <div className={styles.backgroundShape1}></div>
                 <div className={styles.backgroundShape2}></div>
             </div>
@@ -39,7 +51,7 @@ const ProductDetailsComponent = ({productDetails}) => {
                 <p className={styles.productPrice}>${productDetails.price}</p>
                 <p className={styles.productDescription}>{productDetails.description}</p>
                 {
-                    productInCart() ? (
+                    inCart ? (
                         <button className={styles.alreadyInCart}>Already in Cart</button>
                     ): (
                     <button className={styles.addToCartButton} onClick={() => addToCart({
