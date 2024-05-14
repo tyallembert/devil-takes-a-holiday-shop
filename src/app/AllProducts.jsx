@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import styles from "./page.module.scss";
 import { MyCartProvider } from '@/_context/MyCart';
+import CartButton from './_components/CartButton';
 
 const AllProducts = ({products}) => {
     return (
@@ -17,22 +18,23 @@ export default AllProducts
 const ProductsComponent = ({products}) => {
     return (
         <main className={styles.main}>
-        <h1>DTAH Store</h1>
-        <div className={styles.allProducts}>
-        {
-            products ? (
-            products.map(( product ) => (
-                <Link key={product.id} href={`/products/${product.handle}`} className={styles.productContainer}>
-                <img src={product.imageSRC} alt={product.altText} />
-                <div className={styles.textContainer}>
-                    <h2>{product.title}</h2>
-                    <p>${product.price}</p>
-                </div>
-                </Link>
-            ))
-            ):null
-        }
-        </div>
+            <CartButton />
+            <h1>DTAH Store</h1>
+            <div className={styles.allProducts}>
+            {
+                products ? (
+                products.map(( product, index ) => (
+                    <Link key={index} href={`/products/${product.handle}`} className={styles.productContainer}>
+                    <img src={product.imageSRC} alt={product.altText} />
+                    <div className={styles.textContainer}>
+                        <h2>{product.title}</h2>
+                        <p>${product.price}</p>
+                    </div>
+                    </Link>
+                ))
+                ):null
+            }
+            </div>
         </main>
     )
 }

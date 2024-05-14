@@ -1,3 +1,5 @@
+@import "./../variables.module.scss";
+
 .cartButton {
     position: fixed;
     bottom: 2em;
@@ -7,16 +9,35 @@
     justify-content: center;
     width: 3em;
     height: 3em;
-    border: solid 1px white;
+    border: solid 1px $color-1;
     background-color: transparent;
     border-radius: 10em;
     font-size: 1.2em;
     transition: all 200ms ease-in-out;
+    .numLines {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $color-1;
+        width: 2em;
+        height: 2em;
+        border-radius: 10em;
+        text-align: center;
+        font-size: 0.6em;
+        font-weight: 600;
+        color: $color-2;
+    }
     &:hover {
         cursor: pointer;
-        background-color: white;
-        color: black;
+        background-color: $color-1;
+        color: $color-2;
         transform: scale(1.2);
+    }
+    &.hidden {
+        display: none;
     }
     &.animateAway {
         animation: grow 1s forwards;
@@ -29,15 +50,15 @@
             transform: scale(0.7);
             color: black;
         }
-        70% {
+        50% {
             transform: scale(0.7);
-            color: white;
-            background-color: white;
+            color: $color-1;
+            background-color: $color-1;
         }
         100% {
             transform: scale(60);
-            color: white;
-            background-color: white;
+            color: $color-1;
+            background-color: $color-1;
         }
     }
 }

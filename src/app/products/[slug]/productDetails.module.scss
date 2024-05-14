@@ -1,4 +1,4 @@
-
+@import "./../../variables.module.scss";
 .detailsContainer {
     display: flex;
     justify-content: center;
@@ -91,6 +91,28 @@
             font-size: 1.2em;
             font-weight: 700;
             color: rgb(51, 200, 71);
+        }
+        .addToCartButton, .checkoutButton, .alreadyInCart {
+            padding: 1em;
+            border-radius: 10em;
+            width: 50%;
+            border: solid 1px $color-1;
+            background-color: rgba($color-1, 0.3);
+            font-size: 1em;
+            margin: 0.5em;
+            transition: all 200ms ease-in-out;
+            &:hover {
+                cursor: pointer;
+                background-color: $color-1;
+                color: $color-2;
+                transform: scale(1.1);
+            }
+        }
+        .checkoutButton {
+            background-color: rgba($color-1, 0);
+        }
+        .alreadyInCart {
+            border: solid 2px rgb(85, 211, 93);
         }
     }
 }

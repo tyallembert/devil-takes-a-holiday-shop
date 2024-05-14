@@ -2,6 +2,7 @@
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
 import styles from './Cart.module.scss';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 const Cart = () => {
   return (
@@ -14,14 +15,27 @@ const Cart = () => {
 export default Cart;
 
 const CartComponent = () => {
-  const { lines, checkLocalStorageID } = useMyCart();
+  const { lines, fetchCart, removeItem } = useMyCart();
   useEffect(() => {
-    checkLocalStorageID();
-  });
+    fetchCart();
+  }, []);
 
   return (
     <div className={styles.cartPageContainer}>
       <h1>Cart Page</h1>
+      <ul className={styles.contentsContainer}>
+        {
+          lines.map((line) => {
+            return(
+              <li key={line.id} className={styles.lineContainer}>
+                <p>{line.title}</p>
+                <button className={styles.removeItem} onClick={() => removeItem(line.id)}>X</button>
+              </li>
+            )
+          })
+        }
+      </ul>
+        <Link href={"/"}>Continue Shopping</Link>
     </div>
   );
 }

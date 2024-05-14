@@ -1,12 +1,13 @@
 import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
-    const { lines, cartId } = await req.json();
-    console.log("ADDING TO CART");
+    const { lineIds, cartId } = await req.json();
+    console.log("REMOVING ITEM FROM CART");
     console.log("=============================")
+    console.log("LINE IDS: ", lineIds)
     const query = `
-    mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!){
-        cartLinesAdd(cartId: $cartId, lines: $lines) {
+    mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+        cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
           cart {
             id
             lines(first: 10) {
@@ -16,19 +17,19 @@ export async function POST(req) {
                   quantity
                   merchandise {
                     ... on ProductVariant {
-                      id
-                      image {
-                        altText
-                        originalSrc
-                      }
-                      price {
-                        amount
-                        currencyCode
-                      }
-                      product {
-                        title
-                        description
-                      }
+                        id
+                        image {
+                          altText
+                          originalSrc
+                        }
+                        price {
+                          amount
+                          currencyCode
+                        }
+                        product {
+                          title
+                          description
+                        }
                     }
                   }
                 }
@@ -60,7 +61,7 @@ export async function POST(req) {
     const {data, errors, extensions} = await shopifyClient.request(query, {
       variables: {
         cartId: cartId,
-        lines: lines
+        lineIds: lineIds
       }
     });
     if(errors) {

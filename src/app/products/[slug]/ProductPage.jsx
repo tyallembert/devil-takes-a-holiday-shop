@@ -3,6 +3,7 @@ import React from 'react'
 import Image from 'next/image';
 import styles from './productDetails.module.scss';
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
+import CartButton from '@/app/_components/CartButton';
 
 const ProductPage = ({productDetails}) => {
     return (
@@ -15,8 +16,16 @@ const ProductPage = ({productDetails}) => {
 export default ProductPage
 
 const ProductDetailsComponent = ({productDetails}) => {
-    const { addToCart } = useMyCart();
-       
+    const { addToCart, lines } = useMyCart();
+
+    const productInCart = () => {
+        lines.forEach((line) => {
+            if(productDetails.variantId === line.merchandiseId) {
+                return true;
+            }
+        });
+        return false;
+    }
     return (
         <main className={styles.detailsContainer}>
             <button className={styles.backButton} onClick={() => window.history.back()}>Back</button>
@@ -28,13 +37,20 @@ const ProductDetailsComponent = ({productDetails}) => {
             <div className={styles.infoContainer}>
                 <h2 className={styles.productTitle}>{productDetails.title}</h2>
                 <p className={styles.productPrice}>${productDetails.price}</p>
-                <h2>Item ID: {productDetails.variantId}</h2>
                 <p className={styles.productDescription}>{productDetails.description}</p>
-                <button className={styles.addToCartButton} onClick={() => addToCart({
-                quantity: 1,
-                merchandiseId: productDetails.variantId,
-                })}>Add to Cart</button>
+                {
+                    productInCart() ? (
+                        <button className={styles.alreadyInCart}>Already in Cart</button>
+                    ): (
+                    <button className={styles.addToCartButton} onClick={() => addToCart({
+                    quantity: 1,
+                    merchandiseId: productDetails.variantId,
+                    })}>Add to Cart</button>
+                    )
+                }
+                <button className={styles.checkoutButton} >Checkout</button>
             </div>
+            <CartButton />
         </main>
     )
 }

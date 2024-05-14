@@ -1,6 +1,5 @@
 
 import AllProducts from "./AllProducts";
-import CartButton from "./_components/CartButton";
 
 async function getData() {
   const url = new URL('http://localhost:3000');
@@ -34,7 +33,6 @@ export default async function Home() {
   const products = await getData();
   return (
     <>
-    <CartButton />
     <AllProducts products={products}/>
     </>
   );

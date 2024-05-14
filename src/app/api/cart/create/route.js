@@ -40,6 +40,18 @@ export async function POST(req) {
                   merchandise {
                     ... on ProductVariant {
                       id
+                      image {
+                        altText
+                        originalSrc
+                      }
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      product {
+                        title
+                        description
+                      }
                     }
                   }
                 }

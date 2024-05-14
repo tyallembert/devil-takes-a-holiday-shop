@@ -1,13 +1,11 @@
 import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
-    const { cartID } = await req.json();
-    console.log("GETTING NEW CART");
-    console.log("=============================")
+    const { cartId } = await req.json();
     const query = `
     query {
         cart(
-          id: "${cartID}"
+          id: "${cartId}"
         ) {
           id
           createdAt
@@ -20,6 +18,18 @@ export async function POST(req) {
                 merchandise {
                   ... on ProductVariant {
                     id
+                    image {
+                      altText
+                      originalSrc
+                    }
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    product {
+                      title
+                      description
+                    }
                   }
                 }
                 attributes {
@@ -74,7 +84,7 @@ export async function POST(req) {
     `;
     const {data, errors, extensions} = await shopifyClient.request(query);
     if(errors) {
-      console.error(errors);
+      // console.error("ERROR: ", JSON.stringify(errors, null, 2));
       return new Response(JSON.stringify(errors), { 
         status: 500,
         headers: {

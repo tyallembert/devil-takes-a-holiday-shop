@@ -1,12 +1,17 @@
 'use client';
-import { useContext, createContext, useState } from 'react';
+import { useContext, createContext, useState, useEffect } from 'react';
 
 const MyCartContext = createContext(null);
 
 export const MyCartProvider = ({ children }) => {
     const [lines, setLines] = useState([]);
+    const numLines = lines.length;
     const [cartID, setCartID] = useState(null);
 
+    useEffect(() => {
+        // checkLocalStorageID();
+        fetchCart();
+    }, [])
     /* 
         Checks Local storage to see if there is an active Cart
     */
@@ -20,31 +25,20 @@ export const MyCartProvider = ({ children }) => {
                 setCartID(id);
             }
         }
-        if(lines.length > 0) {
-            const data = await fetch("/api/cart/add", {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ line, cartID })
-              });
-            if(!data.ok) {
-                console.error("Error fetching data")
-                return;
-            }
-            const dataJSON = await data.json();
-            const tempLines = dataJSON.cartAdd.cart.lines.edges.map(line => {
-                return {
-                    id: line.node.id,
-                    quantity: line.node.quantity,
-                    merchandiseId: line.node.merchandise.id
-                }
+        const newLines = [...lines, line];
+        const data = await fetch("/api/cart/add", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cartId: cartID, lines: newLines })
             });
-            setLines(tempLines);
-        } else {
-            await createCart(line);
-            //handle errors
+        if(!data.ok) {
+            console.error("Error fetching data")
+            return;
         }
+        const dataJSON = await data.json();
+        populateLines(dataJSON.cartLinesAdd);
     }
     /* 
         Creates a Cart in Shopify and stores the ID in Local Storage
@@ -65,22 +59,42 @@ export const MyCartProvider = ({ children }) => {
         const dataJSON = await data.json();
         localStorage.setItem('cartID', dataJSON.cartCreate.cart.id);
         setCartID(dataJSON.cartCreate.cart.id);
-        const tempLines = dataJSON.cartCreate.cart.lines.edges.map(line => {
-            return {
-                id: line.node.id,
-                quantity: line.node.quantity,
-                merchandiseId: line.node.merchandise.id
-            }
-        });
-        setLines(tempLines);
+        populateLines(dataJSON);
     }
+    /*
+        Removes item from cart
+    */
+    const removeItem = async (lineId) => {
+        console.log("LINE ID: ", lineId)
+        const data = await fetch("/api/cart/removeItem", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cartId: cartID, lineIds: [lineId] })
+        });
+        if(!data.ok) {
+            console.log(data.error)
+            return;
+        }
+        const newLines = lines.filter((line) =>line.id !== lineId)
+        setLines(newLines);
+    }
+    /*
+    Fetches the current cart based on saved cartID in localStorage
+    */
     const fetchCart = async () => {
+        const id = checkLocalStorageID();
+        if(!id){
+            return;
+        }
+        setCartID(id);
         const data = await fetch("/api/cart/get", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ cartID })
+            body: JSON.stringify({ cartId: id })
         });
 
         if(!data.ok) {
@@ -88,11 +102,19 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         const dataJSON = await data.json();
-        const tempLines = dataJSON.cart.cart.lines.edges.map(line => {
+        populateLines(dataJSON);
+    }
+    /*
+        Helper function to populate lines after a response
+    */
+    const populateLines = (data) => {
+        const tempLines = data.cart.lines.edges.map(line => {
             return {
                 id: line.node.id,
                 quantity: line.node.quantity,
-                merchandiseId: line.node.merchandise.id
+                merchandiseId: line.node.merchandise.id,
+                title: line.node.merchandise.product.title,
+                imageSRC: line.node.merchandise.image.originalSrc
             }
         });
         setLines(tempLines);
@@ -101,17 +123,16 @@ export const MyCartProvider = ({ children }) => {
         Checks Local storage to see if there is an active Cart
     */
     const checkLocalStorageID = () => {
-        const cartID = localStorage.getItem('cartID');
-        if(cartID) {
-            setCartID(cartID);
-            fetchCart();
-            return cartID;
+        const resID = localStorage.getItem('cartID');
+        if(resID) {
+            setCartID(resID);
+            return resID;
         } else {
             return null;
         }
     }
     return (
-        <MyCartContext.Provider value={{ lines, cartID, addToCart, checkLocalStorageID }}>
+        <MyCartContext.Provider value={{ lines, cartID, numLines, addToCart, removeItem, fetchCart }}>
         {children}
         </MyCartContext.Provider>
     );
