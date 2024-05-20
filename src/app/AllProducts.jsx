@@ -5,6 +5,7 @@ import styles from "./AllProducts.module.scss";
 import { MyCartProvider } from '@/_context/MyCart';
 import CartButton from './_components/CartButton';
 import { FaCartPlus } from "react-icons/fa";
+import Cart from './_components/Cart';
 
 const AllProducts = ({products}) => {
     return (
@@ -19,7 +20,7 @@ export default AllProducts
 const ProductsComponent = ({products}) => {
     return (
         <main className={styles.main}>
-            <CartButton />
+            <Cart />
             <h1>DTAH Store</h1>
             <div className={styles.allProducts}>
             {

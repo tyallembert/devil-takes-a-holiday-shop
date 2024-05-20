@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from './productDetails.module.scss';
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
 import CartButton from '@/app/_components/CartButton';
+import Cart from '@/app/_components/Cart';
 
 const ProductPage = ({productDetails}) => {
     return (
@@ -36,6 +37,7 @@ const ProductDetailsComponent = ({productDetails}) => {
     }
     return (
         <main className={styles.detailsContainer}>
+            <Cart />
             <button className={styles.backButton} onClick={() => window.history.back()}>Back</button>
             <div className={styles.imageContainer}>
                 <Image src={productDetails.imageSRC} 
@@ -62,7 +64,6 @@ const ProductDetailsComponent = ({productDetails}) => {
                 }
                 <button className={styles.checkoutButton} >Checkout</button>
             </div>
-            <CartButton />
         </main>
     )
 }

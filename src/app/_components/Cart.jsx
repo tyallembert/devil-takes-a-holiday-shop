@@ -1,8 +1,11 @@
 "use client";
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
 import styles from './Cart.module.scss';
-import { useEffect } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { FaShoppingCart } from 'react-icons/fa';
+import { MdOutlineClose } from "react-icons/md";
+import { GiBullHorns } from "react-icons/gi";
 
 const Cart = () => {
   return (
@@ -15,27 +18,76 @@ const Cart = () => {
 export default Cart;
 
 const CartComponent = () => {
-  const { lines, fetchCart, removeItem } = useMyCart();
+  const [showingCart, setShowingCart] = useState(false);
+  const { lines, numLines, fetchCart, removeItem } = useMyCart();
   useEffect(() => {
     fetchCart();
   }, []);
+  const convertCurrency = (currencyCode) => {
+    switch(currencyCode) {
+      case "USD":
+        return "$";
+      case "EUR":
+        return "€";
+      case "GBP":
+        return "£";
+      default:
+        return "$";
+    }
+  }
 
   return (
-    <div className={styles.cartPageContainer}>
-      <h1>Cart Page</h1>
-      <ul className={styles.contentsContainer}>
-        {
-          lines.map((line) => {
-            return(
-              <li key={line.id} className={styles.lineContainer}>
-                <p>{line.title}</p>
-                <button className={styles.removeItem} onClick={() => removeItem(line.id)}>X</button>
-              </li>
-            )
-          })
-        }
-      </ul>
-        <Link href={"/"}>Continue Shopping</Link>
+    <div className={`${styles.cartPageContainer} ${showingCart ? styles.showing: styles.hidden}`}>
+      {
+        !showingCart ? (
+          <button className={styles.cartButton} onClick={()=>setShowingCart(true)}>
+            <p className={styles.numLines}>{numLines}</p>
+            <FaShoppingCart />
+          </button>
+        ): (
+          <>
+          <button className={styles.closeButton} onClick={()=>setShowingCart(false)}>
+            <MdOutlineClose />
+          </button>
+          <ul className={styles.contentsContainer}>
+            {/* <li className={styles.headers}>
+              <p className={styles.product}>Product</p>
+              <p className={styles.title}>Title</p>
+              <p className={styles.quantity}>Quantity</p>
+              <p className={styles.price}>Price</p>
+              <p className={styles.remove}>Remove</p>
+            </li> */}
+            {
+              lines.map((line) => {
+                return(
+                  <li key={line.id} className={styles.lineContainer}>
+                    <Image src={line.imageSRC} alt={line.title} className={styles.image} width={100} height={100} />
+                    <p className={styles.title}>{line.title}</p>
+                    <div className={styles.quantityContainer}>
+                      <button className={styles.quantityButton}>-</button>
+                      <p className={styles.quantity}>{line.quantity}</p>
+                      <button className={styles.quantityButton}>+</button>
+                    </div>
+                    <p className={styles.price}>{convertCurrency(line.currencyCode)}{line.price}</p>
+                    <button className={styles.removeItem} onClick={() => removeItem(line.id)}>X</button>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          <div className={styles.summaryContainer}>
+            <div className={styles.totalContainer}>
+              <p>Total:</p>
+              <p></p>
+            </div>
+            <button className={styles.checkoutButton}>
+              <p>Checkout</p>
+              <GiBullHorns className={styles.horns}/>
+            </button>
+          </div>
+          </>
+        )
+      }
     </div>
   );
 }

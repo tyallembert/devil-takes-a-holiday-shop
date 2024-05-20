@@ -111,6 +111,8 @@ export const MyCartProvider = ({ children }) => {
             return {
                 id: line.node.id,
                 quantity: line.node.quantity,
+                price: line.node.merchandise.price.amount,
+                currencyCode: line.node.merchandise.price.currencyCode,
                 merchandiseId: line.node.merchandise.id,
                 title: line.node.merchandise.product.title,
                 imageSRC: line.node.merchandise.image.originalSrc
