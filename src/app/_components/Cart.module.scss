@@ -4,6 +4,7 @@
     bottom: 2em;
     right: 2em;
     display: flex;
+    z-index: 2;
     transition: all 200ms ease-in-out;
     &.showing {
         bottom: 0.5em;
@@ -16,7 +17,6 @@
         background-color: $color-1;
         padding-top: 3em;
         box-shadow: 2px 2px 5px rgba($color-2, 0.5);
-        z-index: 2;
     }
     &.hidden {
         align-items: center;

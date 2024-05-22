@@ -5,6 +5,7 @@ import styles from "./AllProducts.module.scss";
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
 import { FaCartPlus, FaCheck } from "react-icons/fa";
 import Cart from './_components/Cart';
+import Image from 'next/image';
 
 const AllProducts = ({products}) => {
     return (
@@ -18,8 +19,6 @@ export default AllProducts
 
 const ProductsComponent = ({products}) => {
     const {addToCart, lines} = useMyCart();
-    const [cartProducts, setCartProducts] = useState([]);
-
 
     const handleQuickAdd = (event, id) => {
         event.preventDefault();
@@ -35,27 +34,36 @@ const ProductsComponent = ({products}) => {
             <div className={styles.allProducts}>
             {
                 products ? (
-                products.map(( product, index ) => (
-                    <Link key={index} href={`/products/${product.handle}`} className={styles.productContainer}>
-                    <img src={product.imageSRC} alt={product.altText} />
-                    <div className={styles.textContainer}>
-                        <h2>{product.title}</h2>
-                        <p className={styles.price}>${product.price}</p>
-                        {
-                            lines.find((line)=>(line.merchandiseId === product.variantId)) ? (
-                                <button className={`${styles.addCartButton} ${styles.inCart}`}>
-                                    <FaCheck />
-                                </button>
-                            ): (
-                            <button className={styles.addCartButton} onClick={(event)=>handleQuickAdd(event, product.variantId)}>
-                                <FaCartPlus />
-                            </button>
-                            )
-                        }
-                    </div>
-                    </Link>
-                ))
-                ):null
+                    products.map((product, index) => (
+                        <Link key={index} 
+                        href={`/products/${product.handle}`} 
+                        className={styles.productContainer}
+                        style={{
+                            "animationDelay": `${100 * index}ms`
+                        }}>
+                            <Image src={product.imageSRC} alt={product.altText} width={500} height={500}/>
+                            <div className={styles.textContainer}>
+                                <h2>{product.title}</h2>
+                                <p className={styles.price}>${product.price}</p>
+                                {
+                                    lines.find((line)=>(line.merchandiseId === product.variantId)) ? (
+                                        <button className={`${styles.addCartButton} ${styles.inCart}`}>
+                                            <FaCheck />
+                                        </button>
+                                    ): (
+                                    <button className={styles.addCartButton} onClick={(event)=>handleQuickAdd(event, product.variantId)}>
+                                        <FaCartPlus />
+                                    </button>
+                                    )
+                                }
+                            </div>
+                        </Link>
+                    ))
+                ): (
+                    [0,0,0].map((index) => (
+                        <div key={index} className={styles.previewContainer}></div>
+                    ))
+                )
             }
             </div>
         </main>
