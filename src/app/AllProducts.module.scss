@@ -72,6 +72,9 @@
             border: solid 1px $color-1;
             cursor: pointer;
           }
+          &.inCart {
+            background-color: rgba(119, 224, 101, 0.5);
+          }
         }
       }
     }

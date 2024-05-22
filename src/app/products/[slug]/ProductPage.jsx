@@ -21,7 +21,6 @@ const ProductDetailsComponent = ({productDetails}) => {
 
     useEffect(() => {
         productInCart();
-    
     }, [lines])
 
     const productInCart = () => {

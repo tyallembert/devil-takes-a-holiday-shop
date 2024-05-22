@@ -2,9 +2,6 @@ import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
     const { lineIds, cartId } = await req.json();
-    console.log("REMOVING ITEM FROM CART");
-    console.log("=============================")
-    console.log("LINE IDS: ", lineIds)
     const query = `
     mutation cartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
         cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {

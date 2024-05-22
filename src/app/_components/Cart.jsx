@@ -1,28 +1,15 @@
 "use client";
-import { MyCartProvider, useMyCart } from '@/_context/MyCart';
+import { useMyCart } from '@/_context/MyCart';
 import styles from './Cart.module.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { FaShoppingCart } from 'react-icons/fa';
 import { MdOutlineClose } from "react-icons/md";
 import { GiBullHorns } from "react-icons/gi";
 
 const Cart = () => {
-  return (
-    <MyCartProvider>
-      <CartComponent />
-    </MyCartProvider>
-  );
-
-}
-export default Cart;
-
-const CartComponent = () => {
   const [showingCart, setShowingCart] = useState(false);
-  const { lines, numLines, totalCost, fetchCart, removeItem, changeQuantity } = useMyCart();
-  useEffect(() => {
-    fetchCart();
-  }, []);
+  const { lines, numLines, totalCost, removeItem, changeQuantity } = useMyCart();
   const convertCurrency = (currencyCode) => {
     switch(currencyCode) {
       case "USD":
@@ -50,7 +37,7 @@ const CartComponent = () => {
             <MdOutlineClose />
           </button>
           {
-            lines.length === 0 ? (
+            numLines === 0 ? (
               <>
               <h1 className={styles.emptyCartMessage}>Your Cart is Empty</h1>
               <div className={styles.summaryContainer}>
@@ -106,4 +93,6 @@ const CartComponent = () => {
       }
     </div>
   );
+
 }
+export default Cart;

@@ -8,6 +8,7 @@ export async function POST(req) {
         merchandiseId: line.merchandiseId
       }
     });
+    console.log(formattedLines)
     const query = `
     mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!){
         cartLinesAdd(cartId: $cartId, lines: $lines) {

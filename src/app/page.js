@@ -14,7 +14,8 @@ async function getData() {
     // maybe put in if statement to check if some part of node is null
     return (
       {
-        id: node.variants.edges[0].node.id,
+        id: node.id,
+        variantId: node.variants.edges[0].node.id,
         title: node.title,
         description: node.description,
         handle: node.handle,

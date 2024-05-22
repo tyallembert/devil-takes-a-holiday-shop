@@ -28,13 +28,12 @@ export const MyCartProvider = ({ children }) => {
                 setCartID(id);
             }
         }
-        const newLines = [...lines, line];
         const data = await fetch("/api/cart/add", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ cartId: cartID, lines: newLines })
+            body: JSON.stringify({ cartId: cartID, lines: [line] })
             });
         if(!data.ok) {
             console.error("Error fetching data")
@@ -80,7 +79,9 @@ export const MyCartProvider = ({ children }) => {
             console.log(data.error)
             return;
         }
+        const dataJSON = await data.json()
         const newLines = lines.filter((line) =>line.id !== lineId)
+        setTotalCost(dataJSON.cartLinesRemove.cart.cost.totalAmount);
         setLines(newLines);
     }
     /*
@@ -91,7 +92,6 @@ export const MyCartProvider = ({ children }) => {
         const singleLine = lines.find((line) =>(line.id === lineId));
         if((singleLine.quantity + upOrDown) === 0) {
             removeItem(lineId);
-            setTotalCost({amount: 0.00, currencyCode: 'USD'});
             return;
         }
         const updatedLines = lines.map((line) => {
@@ -142,13 +142,13 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         const dataJSON = await data.json();
-        setTotalCost(dataJSON.cart.cost.totalAmount);
         populateLines(dataJSON);
     }
     /*
         Helper function to populate lines after a response
     */
     const populateLines = (data) => {
+        setTotalCost(data.cart.cost.totalAmount);
         const tempLines = data.cart.lines.edges.map(line => {
             return {
                 id: line.node.id,

@@ -1,9 +1,9 @@
 "use client";
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "./AllProducts.module.scss";
-import { MyCartProvider } from '@/_context/MyCart';
-import { FaCartPlus } from "react-icons/fa";
+import { MyCartProvider, useMyCart } from '@/_context/MyCart';
+import { FaCartPlus, FaCheck } from "react-icons/fa";
 import Cart from './_components/Cart';
 
 const AllProducts = ({products}) => {
@@ -17,6 +17,17 @@ const AllProducts = ({products}) => {
 export default AllProducts
 
 const ProductsComponent = ({products}) => {
+    const {addToCart, lines} = useMyCart();
+    const [cartProducts, setCartProducts] = useState([]);
+
+
+    const handleQuickAdd = (event, id) => {
+        event.preventDefault();
+        addToCart({
+            quantity: 1,
+            merchandiseId: id, 
+        });
+    }
     return (
         <main className={styles.main}>
             <Cart />
@@ -30,9 +41,17 @@ const ProductsComponent = ({products}) => {
                     <div className={styles.textContainer}>
                         <h2>{product.title}</h2>
                         <p className={styles.price}>${product.price}</p>
-                        <button className={styles.addCartButton}>
-                            <FaCartPlus />
-                        </button>
+                        {
+                            lines.find((line)=>(line.merchandiseId === product.variantId)) ? (
+                                <button className={`${styles.addCartButton} ${styles.inCart}`}>
+                                    <FaCheck />
+                                </button>
+                            ): (
+                            <button className={styles.addCartButton} onClick={(event)=>handleQuickAdd(event, product.variantId)}>
+                                <FaCartPlus />
+                            </button>
+                            )
+                        }
                     </div>
                     </Link>
                 ))
