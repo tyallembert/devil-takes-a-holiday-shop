@@ -22,6 +22,15 @@
         padding: 0.5em;
         border-radius: 1.7em;
         background-color: rgba(white, 0.3);
+        animation: imageIn 1000ms ease-in-out;
+        @keyframes imageIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
         img {
             width: auto;
             height: 100%;
@@ -29,6 +38,8 @@
         }
         .backgroundShape1 {
             position: absolute;
+            top: 2em;
+            left: 5em;
             width: 10em;
             height: 15em;
             background: linear-gradient(90deg, rgba(white, 0.2), rgba(white, 0.1));
@@ -37,20 +48,18 @@
             animation: shape1 1s forwards ease-in-out;
             @keyframes shape1 {
                 0% {
-                    transform: rotate(30deg);
-                    top: 2em;
-                    left: 5em;
+                    transform: rotate(30deg) translate(0, 0);
                 }
                 100% {
-                    transform: rotate(0deg);
-                    top: -2em;
-                    left: -5em;
+                    transform: rotate(0deg) translate(-10em, -4em);
                 }
             
             }
         }
         .backgroundShape2 {
             position: absolute;
+            bottom: 5em;
+            right: 5em;
             width: 14em;
             height: 7em;
             background: linear-gradient(0deg, rgba(white, 0.2), rgba(white, 0.1));
@@ -59,14 +68,10 @@
             animation: shape2 1s forwards ease-in-out;
             @keyframes shape2 {
                 0% {
-                    // transform: rotate(-30deg);
-                    bottom: 5em;
-                    right: 5em;
+                    transform: translate(0,0);
                 }
                 100% {
-                    // transform: rotate(20deg);
-                    bottom: -5em;
-                    right: 3em;
+                    transform: translate(6em, 8em);
                 }
             }
         }
@@ -75,22 +80,75 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        // width: 100%;
         min-height: 60%;
         padding: 1em;
-        .productTitle {
-            font-size: 2em;
+        .backgroundTitle {
+            position: absolute;
+            top: 0.5em;
+            left: 30%;
+            font-size: 7em;
+            width: 200%;
+            opacity: 0;
+            animation: backgroundTitleIn 3s ease-in-out forwards;
+            @keyframes backgroundTitleIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 0.15;
+                }
+            }
         }
-        .productDescription {
-            font-size: 1em;
-            margin: 1em 0;
-            width: 90%;
-            max-width: 30em;
+        .productTitle {
+            font-size: 2.5em;
+            transform: rotate(90deg) translateY(50px);
+            opacity: 0;
+            transform-origin: left;
+            z-index: -1;
+            animation: titleIn 500ms 600ms ease-in-out forwards;
+            @keyframes titleIn {
+                from {
+                    transform:translateX(-100px);
+                    opacity: 0;
+                }
+                to {
+                    transform:translateX(0px);
+                    opacity: 1;
+                }
+            }
         }
         .productPrice {
             font-size: 1.2em;
             font-weight: 700;
             color: rgb(51, 200, 71);
+            opacity: 0;
+            animation: priceIn 300ms 900ms ease-in-out forwards;
+            @keyframes priceIn{
+                from {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0px);
+                    opacity: 1;
+                }
+            }
+        }
+        .productDescription {
+            font-size: 1em;
+            margin: 1em 0;
+            width: 90%;
+            opacity: 0;
+            max-width: 30em;
+            animation: descIn 700ms 800ms ease-in forwards;
+            @keyframes descIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
         }
         .addToCartButton, .checkoutButton, .alreadyInCart {
             padding: 1em;
@@ -100,12 +158,22 @@
             background-color: rgba($color-1, 0.3);
             font-size: 1em;
             margin: 0.5em;
+            scale: 0;
+            animation: growButton 500ms 1000ms cubic-bezier(.45,.07,.53,1.42) forwards;
             transition: all 200ms ease-in-out;
             &:hover {
                 cursor: pointer;
                 background-color: $color-1;
                 color: $color-2;
                 transform: scale(1.1);
+            }
+            @keyframes growButton {
+                from {
+                    scale: 0;
+                }
+                to {
+                    scale: 1;
+                }
             }
         }
         .checkoutButton {

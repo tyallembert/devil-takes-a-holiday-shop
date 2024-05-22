@@ -47,6 +47,7 @@ const ProductDetailsComponent = ({productDetails}) => {
                 <div className={styles.backgroundShape2}></div>
             </div>
             <div className={styles.infoContainer}>
+                <h1 className={styles.backgroundTitle}>{productDetails.title}</h1>
                 <h2 className={styles.productTitle}>{productDetails.title}</h2>
                 <p className={styles.productPrice}>${productDetails.price}</p>
                 <p className={styles.productDescription}>{productDetails.description}</p>
