@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import styles from './productDetails.module.scss';
 import { MyCartProvider, useMyCart } from '@/_context/MyCart';
-import CartButton from '@/app/_components/CartButton';
 import Cart from '@/app/_components/Cart';
 
 const ProductPage = ({productDetails}) => {

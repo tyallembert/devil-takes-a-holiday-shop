@@ -3,7 +3,6 @@ import Link from 'next/link';
 import React from 'react';
 import styles from "./AllProducts.module.scss";
 import { MyCartProvider } from '@/_context/MyCart';
-import CartButton from './_components/CartButton';
 import { FaCartPlus } from "react-icons/fa";
 import Cart from './_components/Cart';
 

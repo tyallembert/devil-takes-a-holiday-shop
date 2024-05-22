@@ -11,6 +11,7 @@
         justify-content: center;
         height: calc(100vh - 1em);
         width: 30%;
+        min-width: 25em;
         border-radius: 1em;
         background-color: $color-1;
         padding-top: 3em;
@@ -81,6 +82,13 @@
             background-color: $color-1;
             color: $color-2;
         }
+    }
+    .emptyCartMessage {
+        width: 100%;
+        text-align: center;
+        color: rgba($color-2, 0.3);
+        font-size: 2em;
+        margin-top: 5em;
     }
     .contentsContainer {
         display: flex;
@@ -181,6 +189,14 @@
         align-items: center;
         justify-content: center;
         width: 100%;
+        .totalContainer {
+            display: flex;
+            justify-content: space-between;
+            width: 70%;
+            color: $color-2;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
         .checkoutButton {
             position: relative;
             display: flex;

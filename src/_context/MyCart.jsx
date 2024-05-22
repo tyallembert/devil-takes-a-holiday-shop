@@ -6,6 +6,10 @@ const MyCartContext = createContext(null);
 export const MyCartProvider = ({ children }) => {
     const [lines, setLines] = useState([]);
     const numLines = lines.length;
+    const [totalCost, setTotalCost] = useState({
+        amount: 0,
+        currencyCode: 'USD'
+    })
     const [cartID, setCartID] = useState(null);
 
     useEffect(() => {
@@ -80,6 +84,43 @@ export const MyCartProvider = ({ children }) => {
         setLines(newLines);
     }
     /*
+    Changes the quantity of a certain item in the cart
+    */
+    const changeQuantity = async(lineId, upOrDown) => {
+        // add in error handling for going negative
+        const singleLine = lines.find((line) =>(line.id === lineId));
+        if((singleLine.quantity + upOrDown) === 0) {
+            removeItem(lineId);
+            setTotalCost({amount: 0.00, currencyCode: 'USD'});
+            return;
+        }
+        const updatedLines = lines.map((line) => {
+            if(line.id === lineId) {
+                if(upOrDown === 1) {
+                    line.quantity += 1;
+                } else {
+                    line.quantity -= 1;
+                }
+            }
+            return line;
+        })
+        const data = await fetch("/api/cart/update", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cartId: cartID, lines: updatedLines })
+        })
+        if(!data.ok) {
+            console.error("Error fetching data")
+            return;
+        }
+        const dataJSON = await data.json();
+        setTotalCost(dataJSON.cartLinesUpdate.cart.cost.totalAmount);
+        setLines(updatedLines);
+
+    }
+    /*
     Fetches the current cart based on saved cartID in localStorage
     */
     const fetchCart = async () => {
@@ -101,6 +142,7 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         const dataJSON = await data.json();
+        setTotalCost(dataJSON.cart.cost.totalAmount);
         populateLines(dataJSON);
     }
     /*
@@ -133,7 +175,7 @@ export const MyCartProvider = ({ children }) => {
         }
     }
     return (
-        <MyCartContext.Provider value={{ lines, cartID, numLines, addToCart, removeItem, fetchCart }}>
+        <MyCartContext.Provider value={{ lines, cartID, numLines, totalCost, addToCart, removeItem, fetchCart, changeQuantity }}>
         {children}
         </MyCartContext.Provider>
     );
