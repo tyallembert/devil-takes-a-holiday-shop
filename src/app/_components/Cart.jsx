@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FaShoppingCart } from 'react-icons/fa';
 import { MdOutlineClose } from "react-icons/md";
 import { GiBullHorns } from "react-icons/gi";
+import AddAnimation from './AddAnimation';
 
 const Cart = () => {
   const [showingCart, setShowingCart] = useState(false);
@@ -28,8 +29,10 @@ const Cart = () => {
       {
         !showingCart ? (
           <button className={styles.cartButton} onClick={()=>setShowingCart(true)}>
+            <AddAnimation>
             <p className={styles.numLines}>{numLines}</p>
             <FaShoppingCart />
+            </AddAnimation>
           </button>
         ): (
           <>
@@ -68,7 +71,7 @@ const Cart = () => {
                           <p className={styles.quantity}>{line.quantity}</p>
                           <button className={styles.quantityButton} onClick={() => changeQuantity(line.id, 1)}>+</button>
                         </div>
-                        <p className={styles.price}>{convertCurrency(line.currencyCode)}{line.price}</p>
+                        <p className={styles.price}>{convertCurrency(line.currencyCode)}{Number(line.price).toFixed(2)}</p>
                         <button className={styles.removeItem} onClick={() => removeItem(line.id)}>X</button>
                       </li>
                     )

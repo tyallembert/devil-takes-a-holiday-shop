@@ -9,7 +9,7 @@ export async function POST(req) {
         title
         description
         handle
-        variants(first: 1) {
+        variants(first: 5) {
           edges {
             node {
               id
@@ -20,11 +20,19 @@ export async function POST(req) {
             }
           }
         }
+        options {
+          id
+          name
+          values
+        }
         images(first: 5) {
           edges {
             node {
+              id
               originalSrc
               altText
+              width
+              height
             }
           }
         }

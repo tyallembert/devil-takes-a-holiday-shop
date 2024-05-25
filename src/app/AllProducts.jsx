@@ -44,7 +44,7 @@ const ProductsComponent = ({products}) => {
                             <Image src={product.imageSRC} alt={product.altText} width={500} height={500}/>
                             <div className={styles.textContainer}>
                                 <h2>{product.title}</h2>
-                                <p className={styles.price}>${product.price}</p>
+                                <p className={styles.price}>${Number(product.price).toFixed(2)}</p>
                                 {
                                     lines.find((line)=>(line.merchandiseId === product.variantId)) ? (
                                         <button className={`${styles.addCartButton} ${styles.inCart}`}>

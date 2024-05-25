@@ -4,13 +4,13 @@ import { useContext, createContext, useState, useEffect } from 'react';
 const MyCartContext = createContext(null);
 
 export const MyCartProvider = ({ children }) => {
+    const [cartID, setCartID] = useState(null);
     const [lines, setLines] = useState([]);
     const numLines = lines.length;
     const [totalCost, setTotalCost] = useState({
         amount: 0,
         currencyCode: 'USD'
     })
-    const [cartID, setCartID] = useState(null);
 
     useEffect(() => {
         fetchCart();
@@ -81,7 +81,7 @@ export const MyCartProvider = ({ children }) => {
         }
         const dataJSON = await data.json()
         const newLines = lines.filter((line) =>line.id !== lineId)
-        setTotalCost(dataJSON.cartLinesRemove.cart.cost.totalAmount);
+        setTotalCost(dataJSON.cartLinesRemove.cart.cost.subtotalAmount);
         setLines(newLines);
     }
     /*
@@ -116,7 +116,7 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         const dataJSON = await data.json();
-        setTotalCost(dataJSON.cartLinesUpdate.cart.cost.totalAmount);
+        setTotalCost(dataJSON.cartLinesUpdate.cart.cost.subtotalAmount);
         setLines(updatedLines);
 
     }
@@ -148,7 +148,7 @@ export const MyCartProvider = ({ children }) => {
         Helper function to populate lines after a response
     */
     const populateLines = (data) => {
-        setTotalCost(data.cart.cost.totalAmount);
+        setTotalCost(data.cart.cost.subtotalAmount);
         const tempLines = data.cart.lines.edges.map(line => {
             return {
                 id: line.node.id,

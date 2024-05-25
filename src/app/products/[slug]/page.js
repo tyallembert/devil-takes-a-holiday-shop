@@ -17,6 +17,15 @@ async function getData(slug) {
     return;
   }
   const dataJSON = await data.json();
+  const images = dataJSON.productByHandle.images.edges.map((edge) => {
+    return {
+      id: edge.node.id,
+      src: edge.node.originalSrc,
+      alt: edge.node.altText,
+      width: edge.node.width,
+      height: edge.node.height
+    }
+  })
   const product = {
     id: dataJSON.productByHandle.id,
     title: dataJSON.productByHandle.title,
@@ -25,8 +34,8 @@ async function getData(slug) {
     variantId: dataJSON.productByHandle.variants.edges[0].node.id,
     price: dataJSON.productByHandle.variants.edges[0].node.price.amount,
     currencyCode: dataJSON.productByHandle.variants.edges[0].node.price.currencyCode,
-    imageSRC: dataJSON.productByHandle.images.edges[0].node.originalSrc,
-    altText: dataJSON.productByHandle.images.edges[0].node.altText
+    options: dataJSON.productByHandle.options,
+    images: images,
   
   };
   return product;

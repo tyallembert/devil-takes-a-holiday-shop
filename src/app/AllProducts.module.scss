@@ -98,3 +98,18 @@
     }
   }
 }
+
+@media screen and (max-width: 480px) {
+  .main {
+    .allProducts {
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+      padding: 0;
+      .productContainer {
+        width: 45%;
+        min-width: auto;
+      }
+    }
+  }
+}

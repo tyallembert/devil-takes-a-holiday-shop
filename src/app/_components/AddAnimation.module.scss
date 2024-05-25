@@ -1,0 +1,113 @@
+@import "../variables.module.scss";
+.addAnimation {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    .expandingCircle {
+        position: absolute;
+        inset: 0;
+        border-radius: 20em;
+        width: 100%;
+        background-color: rgba($color-1, 0.8);
+        animation: circleGrow 1s ease-in-out forwards;
+        @keyframes circleGrow {
+            from {
+                opacity: 1;
+                scale: 1;
+            }
+            to {
+                opacity: 0;
+                scale: 1.5;
+            }
+        }
+    }
+    .shape {
+        position: absolute;
+        background-color: $color-1;
+        width: 5px;
+        height: 5px;
+        border-radius: 1px;
+        &.shape1 {
+            top: 10%;
+            left: 10%;
+            animation: shape1 1s ease-out forwards;
+            @keyframes shape1 {
+                from {
+                    opacity: 0.8;
+                    scale: 1;
+                    transform: translate(0, 0);
+                }
+                to {
+                    opacity: 0;
+                    scale: 1.7;
+                    transform: translate(-30px, -30px) rotate(20deg);
+                }
+            }
+        }
+        &.shape2 {
+            top: 40%;
+            left: 3%;
+            animation: shape2 1s ease-out forwards;
+            @keyframes shape2 {
+                from {
+                    opacity: 1;
+                    transform: translate(0, 0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translate(-30px, -10px) rotate(90deg);
+                }
+            }
+        }
+        &.shape3 {
+            top: 2%;
+            left: 50%;
+            animation: shape3 1s ease-out forwards;
+            @keyframes shape3 {
+                from {
+                    opacity: 0.6;
+                    scale: 1.1;
+                    transform: translate(0, 0);
+                }
+                to {
+                    opacity: 0;
+                    scale: 1.4;
+                    transform: translate(20px, -30px) rotate(-45deg);
+                }
+            }
+        }
+        &.shape4 {
+            top: 0%;
+            left: 35%;
+            animation: shape4 1s ease-out forwards;
+            @keyframes shape4 {
+                from {
+                    opacity: 0.8;
+                    transform: translate(0, 0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translate(10px, -30px) rotate(45deg);
+                }
+            }
+        }
+        &.shape5 {
+            top: 5%;
+            right: 15%;
+            animation: shape5 1s ease-out forwards;
+            @keyframes shape5 {
+                from {
+                    opacity: 0.8;
+                    transform: translate(0, 0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translate(40px, -30px) rotate(45deg);
+                }
+            }
+        }
+    }
+}

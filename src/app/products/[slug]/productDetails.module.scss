@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     gap: 1em;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     .backButton {
         position: absolute;
@@ -18,7 +18,11 @@
     }
     .imageContainer {
         position: relative;
-        height: 60%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        height: 80vh;
+        width: auto;
         padding: 0.5em;
         border-radius: 1.7em;
         background-color: rgba(white, 0.3);
@@ -31,10 +35,20 @@
                 opacity: 1;
             }
         }
-        img {
+        .mainImage {
             width: auto;
-            height: 100%;
+            height: calc(100% - 5em);
             border-radius: 1.5em;
+        }
+        .allImagesContainer {
+            height: 4em;
+            width: 95%;
+            margin: auto;
+            img {
+                max-height: 100%;
+                width: auto;
+                border-radius: 5px;
+            }
         }
         .backgroundShape1 {
             position: absolute;
@@ -136,6 +150,7 @@
         }
         .productDescription {
             font-size: 1em;
+            font-weight: 300;
             margin: 1em 0;
             width: 90%;
             opacity: 0;
@@ -147,6 +162,52 @@
                 }
                 to {
                     opacity: 1;
+                }
+            }
+        }
+        .optionsContainer {
+            margin: 1em 0;
+            .singleTypeContainer {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5em;
+                opacity: 0;
+                animation: optionsIn 500ms 1.2s ease-in-out forwards;
+                @keyframes optionsIn {
+                    from  {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+                .optionName {
+                    width: 100%;
+                }
+                .singleOption {
+                    input[type="radio"] {
+                        display: none;
+                    }
+                    p {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 1em;
+                        border-radius: 5px;
+                        background-color: rgba($color-1, 0.2);
+                        width: 3em;
+                        font-weight: 500;
+                        transition: all 100ms ease-in-out;
+                        cursor: pointer;
+                        &:hover {
+                            background-color: rgba($color-1, 0.4);
+                        }
+                    }
+                    input[type="radio"]:checked  + p{
+                        outline: solid 1px white;
+                        background-color: rgba($color-1, 0.4);
+                        transition: all 50ms ease-in-out;
+                    }
                 }
             }
         }
@@ -186,6 +247,31 @@
                 color: $color-1;
                 background-color: rgba(rgb(85, 211, 93), 0.3);
                 transform: scale(1);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .detailsContainer {
+        flex-direction: column;
+        .imageContainer {
+            position: sticky;
+            top: 0;
+            width: 95%;
+            height: auto;
+            margin-top: 4em;
+        }
+        .infoContainer {
+            background-color: $color-2;
+            border-top-left-radius: 2em;
+            border-top-right-radius: 2em;
+            z-index: 2;
+            .backgroundTitle {
+                display: none;
+            }
+            .addToCartButton, .checkoutButton, .alreadyInCart {
+                width: 100%;
             }
         }
     }
