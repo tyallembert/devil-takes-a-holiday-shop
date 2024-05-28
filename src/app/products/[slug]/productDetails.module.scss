@@ -239,6 +239,9 @@
         }
         .checkoutButton {
             background-color: rgba($color-1, 0);
+            color: $color-1;
+            text-align: center;
+            text-decoration: none;
         }
         .alreadyInCart {
             border: solid 2px rgb(85, 211, 93);

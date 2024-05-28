@@ -41,7 +41,9 @@ const ProductsComponent = ({products}) => {
                         style={{
                             "animationDelay": `${100 * index}ms`
                         }}>
-                            <Image src={product.imageSRC} alt={product.altText} width={500} height={500}/>
+                            <div className={styles.imageContainer}>
+                                <Image src={product.imageSRC} alt={product.altText} width={500} height={500}/>
+                            </div>
                             <div className={styles.textContainer}>
                                 <h2>{product.title}</h2>
                                 <p className={styles.price}>${Number(product.price).toFixed(2)}</p>

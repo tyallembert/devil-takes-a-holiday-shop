@@ -16,7 +16,7 @@ const ProductPage = ({productDetails}) => {
 export default ProductPage
 
 const ProductDetailsComponent = ({productDetails}) => {
-    const { addToCart, lines } = useMyCart();
+    const { addToCart, lines, checkoutUrl } = useMyCart();
     const [inCart, setInCart] = useState(false);
     const [options, setOptions] = useState({});
 
@@ -108,7 +108,7 @@ const ProductDetailsComponent = ({productDetails}) => {
                         })}>Add to Cart</button>
                     )
                 }
-                <button className={styles.checkoutButton} >Checkout</button>
+                <a href={checkoutUrl} className={styles.checkoutButton}>Checkout</a>
             </div>
         </main>
     )

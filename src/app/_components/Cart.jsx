@@ -10,7 +10,7 @@ import AddAnimation from './AddAnimation';
 
 const Cart = () => {
   const [showingCart, setShowingCart] = useState(false);
-  const { lines, numLines, totalCost, removeItem, changeQuantity } = useMyCart();
+  const { lines, numLines, totalCost, checkoutUrl, removeItem, changeQuantity } = useMyCart();
   const convertCurrency = (currencyCode) => {
     switch(currencyCode) {
       case "USD":
@@ -83,10 +83,10 @@ const Cart = () => {
                 <p>Total:</p>
                 <p>{convertCurrency(totalCost.currencyCode)}{Number(totalCost.amount).toFixed(2)}</p>
               </div>
-              <button className={styles.checkoutButton}>
+              <a href={checkoutUrl} className={styles.checkoutButton}>
                 <p>Checkout</p>
                 <GiBullHorns className={styles.horns}/>
-              </button>
+              </a>
             </div>
             </>
             )

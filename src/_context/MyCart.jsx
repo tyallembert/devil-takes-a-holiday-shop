@@ -5,12 +5,10 @@ const MyCartContext = createContext(null);
 
 export const MyCartProvider = ({ children }) => {
     const [cartID, setCartID] = useState(null);
+    const [checkoutUrl, setCheckoutUrl] = useState(null);
     const [lines, setLines] = useState([]);
     const numLines = lines.length;
-    const [totalCost, setTotalCost] = useState({
-        amount: 0,
-        currencyCode: 'USD'
-    })
+    const [totalCost, setTotalCost] = useState({amount: 0, currencyCode: 'USD'})
 
     useEffect(() => {
         fetchCart();
@@ -129,6 +127,10 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         setCartID(id);
+
+        if(lines.length !== 0) {
+            return;
+        }
         const data = await fetch("/api/cart/get", {
             method: 'POST',
             headers: {
@@ -142,6 +144,7 @@ export const MyCartProvider = ({ children }) => {
             return;
         }
         const dataJSON = await data.json();
+        setCheckoutUrl(dataJSON.cart.checkoutUrl);
         populateLines(dataJSON);
     }
     /*
@@ -175,7 +178,7 @@ export const MyCartProvider = ({ children }) => {
         }
     }
     return (
-        <MyCartContext.Provider value={{ lines, cartID, numLines, totalCost, addToCart, removeItem, fetchCart, changeQuantity }}>
+        <MyCartContext.Provider value={{ lines, cartID, numLines, totalCost, checkoutUrl, addToCart, removeItem, fetchCart, changeQuantity }}>
         {children}
         </MyCartContext.Provider>
     );

@@ -3,11 +3,12 @@ import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 export async function POST(req) {
     const { cartId } = await req.json();
     const query = `
-    query {
+    query retrieveCart($cartId: ID!){
         cart(
-          id: "${cartId}"
+          id: $cartId
         ) {
           id
+          checkoutUrl
           createdAt
           updatedAt
           lines(first: 10) {
@@ -82,7 +83,11 @@ export async function POST(req) {
         }
       }
     `;
-    const {data, errors, extensions} = await shopifyClient.request(query);
+    const {data, errors, extensions} = await shopifyClient.request(query,  {
+      variables: {
+        cartId: cartId,
+      }
+    });
     if(errors) {
       // console.error("ERROR: ", JSON.stringify(errors, null, 2));
       return new Response(JSON.stringify(errors), { 
