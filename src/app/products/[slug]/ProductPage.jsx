@@ -18,29 +18,42 @@ export default ProductPage
 const ProductDetailsComponent = ({productDetails}) => {
     const { addToCart, lines, checkoutUrl } = useMyCart();
     const [inCart, setInCart] = useState(false);
-    const [options, setOptions] = useState({});
+    const [variantId, setVariantId] = useState(null);
+    const [optionsError, setOptionsError] = useState(null);
 
     useEffect(() => {
         productInCart();
-    }, [lines])
+    }, [lines, variantId])
 
     const productInCart = () => {
         let prodInCart = false;
         lines.forEach((line) => {
-            console.log("Is in cart: ", line.merchandiseId === productDetails.variantId)
-            if(productDetails.variantId === line.merchandiseId) {
+            if(variantId === line.merchandiseId) {
                 prodInCart = true;
             }
         });
         setInCart(prodInCart);
     }
-
+    const handleAddToCart = () => {
+        if(variantId) {
+            setOptionsError(null);
+            addToCart({
+                quantity: 1,
+                merchandiseId: variantId,
+            })
+        } else {
+            console.log("No Variant ID")
+            setOptionsError({message: "Choose your size"})
+        }
+    }
     const handleChangeOption = (e) => {
         const name = e.currentTarget.name;
         const value = e.currentTarget.value;
-        setOptions((prevOptions) => {
-            return {...prevOptions, [name]: value}
-        })
+        const variant = productDetails.variants.find((variant) => (
+            variant.options.some((option) => option.name === name && option.value === value)
+        ))
+        setOptionsError(null);
+        setVariantId(variant.id);
     }
     return (
         <main className={styles.detailsContainer}>
@@ -75,7 +88,14 @@ const ProductDetailsComponent = ({productDetails}) => {
                 <p className={styles.productDescription}>{productDetails.description}</p>
                 {
                     productDetails.options ? (
-                        <form className={styles.optionsContainer}>
+                        <form className={`${styles.optionsContainer} ${optionsError ? styles.hasError: null}`}>
+                        {
+                            optionsError ? (
+                                <div className={styles.errorContainer}>
+                                    <p>{optionsError.message}</p>
+                                </div>
+                            ):null
+                        }
                         {
                             productDetails.options.map((option, index) => (
                                 <div className={styles.singleTypeContainer} key={index}>
@@ -102,10 +122,7 @@ const ProductDetailsComponent = ({productDetails}) => {
                     inCart ? (
                         <button className={styles.alreadyInCart}>Already in Cart</button>
                     ): (
-                        <button className={styles.addToCartButton} onClick={() => addToCart({
-                        quantity: 1,
-                        merchandiseId: productDetails.variantId,
-                        })}>Add to Cart</button>
+                        <button className={styles.addToCartButton} onClick={handleAddToCart}>Add to Cart</button>
                     )
                 }
                 <a href={checkoutUrl} className={styles.checkoutButton}>Checkout</a>

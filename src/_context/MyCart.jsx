@@ -16,7 +16,7 @@ export const MyCartProvider = ({ children }) => {
     /* 
         Checks Local storage to see if there is an active Cart
     */
-    const addToCart = async (line) => {
+    const addToCart = async (line, options) => {
         if(!cartID) {
             const id = checkLocalStorageID();
             if(!id) {
@@ -31,7 +31,7 @@ export const MyCartProvider = ({ children }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ cartId: cartID, lines: [line] })
+            body: JSON.stringify({ cartId: cartID, lines: [line], attributes: options })
             });
         if(!data.ok) {
             console.error("Error fetching data")

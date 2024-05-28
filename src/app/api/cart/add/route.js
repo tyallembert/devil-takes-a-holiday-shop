@@ -1,11 +1,12 @@
 import { shopifyClient } from "@/utils/shopify/shopifyFetch";
 
 export async function POST(req) {
-    const { lines, cartId } = await req.json();
+    const { lines, cartId, attributes } = await req.json();
     const formattedLines = lines.map((line) => {
       return {
         quantity: line.quantity,
-        merchandiseId: line.merchandiseId
+        merchandiseId: line.merchandiseId,
+        attributes: attributes
       }
     });
     const query = `
@@ -18,6 +19,10 @@ export async function POST(req) {
                 node {
                   id
                   quantity
+                  attributes {
+                    key
+                    value
+                  }
                   merchandise {
                     ... on ProductVariant {
                       id

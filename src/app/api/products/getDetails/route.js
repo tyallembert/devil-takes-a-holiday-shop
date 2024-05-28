@@ -9,10 +9,14 @@ export async function POST(req) {
         title
         description
         handle
-        variants(first: 5) {
+        variants(first: 10) {
           edges {
             node {
               id
+              selectedOptions {
+                name
+                value
+              }
               price {
                 amount
                 currencyCode

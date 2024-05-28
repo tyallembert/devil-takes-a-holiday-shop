@@ -26,12 +26,19 @@ async function getData(slug) {
       height: edge.node.height
     }
   })
+  const variants = dataJSON.productByHandle.variants.edges.map((variant) => {
+    return {
+      id: variant.node.id,
+      options: variant.node.selectedOptions
+    }
+  })
   const product = {
     id: dataJSON.productByHandle.id,
     title: dataJSON.productByHandle.title,
     description: dataJSON.productByHandle.description,
     handle: dataJSON.productByHandle.handle,
     variantId: dataJSON.productByHandle.variants.edges[0].node.id,
+    variants: variants,
     price: dataJSON.productByHandle.variants.edges[0].node.price.amount,
     currencyCode: dataJSON.productByHandle.variants.edges[0].node.price.currencyCode,
     options: dataJSON.productByHandle.options,

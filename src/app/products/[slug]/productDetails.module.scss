@@ -166,7 +166,51 @@
             }
         }
         .optionsContainer {
+            position: relative;
             margin: 1em 0;
+            border-radius: 10px;
+            padding: 1em;
+            &.hasError {
+                animation: fadeInOut 3.5s ease-in-out infinite;
+                @keyframes fadeInOut {
+                    from {
+                        background-color: rgba(255, 88, 88, 0.4);
+                    }
+                    40% {
+                        background-color: rgba(255, 0, 0, 0);
+                    }
+                    60% {
+                        background-color: rgba(255, 0, 0, 0);
+                    }
+                    to {
+                        background-color: rgba(255, 88, 88, 0.4);
+                    }
+                }
+            }
+            .errorContainer {
+                position: absolute;
+                top: 50%;
+                right: -50%;
+                padding: 1em;
+                opacity: 0;
+                background: rgba($color-1, 0.2);
+                border-radius: 5px;
+                animation: slideIn 400ms ease-in-out forwards;
+                @keyframes slideIn{
+                    from {
+                        transform: translate(-80%, -50%);
+                        opacity: 0;
+                    }
+                    80% {
+                        transform: translate(10%, -50%);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translate(0%, -50%);
+                        opacity: 1;
+                    }
+                }
+            }
             .singleTypeContainer {
                 display: flex;
                 flex-wrap: wrap;
@@ -215,10 +259,9 @@
             padding: 1em;
             border-radius: 10em;
             width: 50%;
-            border: solid 1px $color-1;
-            background-color: rgba($color-1, 0.3);
             font-size: 1em;
             margin: 0.5em;
+            font-weight: 600;
             scale: 0;
             animation: growButton 500ms 1000ms cubic-bezier(.45,.07,.53,1.42) forwards;
             transition: all 200ms ease-in-out;
@@ -237,8 +280,16 @@
                 }
             }
         }
+        .addToCartButton {
+            position: sticky;
+            bottom: 1em;
+            background-color: $color-1;
+            color: $color-2;
+            border: solid 2px $color-2;
+        }
         .checkoutButton {
             background-color: rgba($color-1, 0);
+            border: solid 1px $color-1;
             color: $color-1;
             text-align: center;
             text-decoration: none;
