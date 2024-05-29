@@ -117,8 +117,15 @@
                 width: auto;
                 height: 4em;
             }
-            .title {
-              width: 30%;  
+            .titleContainer {
+                width: 30%;
+                .title {
+                    font-weight: 600;  
+                }
+                .option {
+                    opacity: 0.5;
+                    font-weight: 500;
+                }
             }
             .quantityContainer {
                 display: flex;

@@ -160,7 +160,8 @@ export const MyCartProvider = ({ children }) => {
                 currencyCode: line.node.merchandise.price.currencyCode,
                 merchandiseId: line.node.merchandise.id,
                 title: line.node.merchandise.product.title,
-                imageSRC: line.node.merchandise.image.originalSrc
+                imageSRC: line.node.merchandise.image.originalSrc,
+                options: line.node.merchandise.selectedOptions
             }
         });
         setLines(tempLines);

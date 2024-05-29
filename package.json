@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@shopify/hydrogen-react": "^2024.4.1",
     "@shopify/storefront-api-client": "^0.3.3",
     "next": "14.2.3",
     "react": "^18",

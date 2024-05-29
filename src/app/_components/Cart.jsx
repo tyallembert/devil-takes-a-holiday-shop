@@ -53,19 +53,15 @@ const Cart = () => {
             ): (
               <>
               <ul className={styles.contentsContainer}>
-                {/* <li className={styles.headers}>
-                  <p className={styles.product}>Product</p>
-                  <p className={styles.title}>Title</p>
-                  <p className={styles.quantity}>Quantity</p>
-                  <p className={styles.price}>Price</p>
-                  <p className={styles.remove}>Remove</p>
-                </li> */}
                 {
                   lines.map((line) => {
                     return(
                       <li key={line.id} className={styles.lineContainer}>
                         <Image src={line.imageSRC} alt={line.title} className={styles.image} width={100} height={100} />
-                        <p className={styles.title}>{line.title}</p>
+                        <div className={styles.titleContainer}>
+                          <p className={styles.title}>{line.title}</p>
+                          <p className={styles.option}>{line.options[0].name}: {line.options[0].value}</p>
+                        </div>
                         <div className={styles.quantityContainer}>
                           <button className={styles.quantityButton} onClick={() => changeQuantity(line.id, -1)}>-</button>
                           <p className={styles.quantity}>{line.quantity}</p>

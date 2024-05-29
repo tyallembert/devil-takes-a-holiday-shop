@@ -19,6 +19,10 @@ export async function POST(req) {
                 merchandise {
                   ... on ProductVariant {
                     id
+                    selectedOptions {
+                      name
+                      value
+                    }
                     image {
                       altText
                       originalSrc
